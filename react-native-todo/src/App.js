@@ -33,29 +33,35 @@ const List = styled.ScrollView`
 export default function App() {
 	const [newTask, setNewTask] = useState('');
 
+	/* id: 할 일 항목이 추가되는 시간의 타임스탬프 사용. 
+	   text: input컴포넌트에 입력된 값을 지정. 새로 입력되는 항목이기 때문에 completed는 항상 false
+	   newTask값을 다시 빈 문자열로 지정해서 input을 컴포넌트를 초기화하고, 기존의 목록을 유지한 상태에서 새로운 항목이 추가되도록 구성.  */
 	const _addTask = () => {
-		alert(`Add: ${newTask}`);
-		setNewTask('');
-		/*
 		const ID = Date.now().toString();
 		const newTaskObject = {
-		  [ID]: { id: ID, text: newTask, completed: false },
+			[ID]: {id: ID, text: newTask, completed: false},
 		};
 		setNewTask('');
-		_saveTasks({ ...tasks, ...newTaskObject });
-		*/
+		setTasks({ ...tasks, ...newTaskObject});
 	  };
+
 	const _handleTextChange = text => {
 		setNewTask(text);
 	  };
 	const width = Dimensions.get('window').width;
+
+	const [tasks, setTasks] = useState({
+		'1': {id: '1', text: 'Han', completed: false},
+		'2': {id: '2', text: 'rn', completed: true},
+		'3': {id: '3', text: 'rn2', completed: false},
+		'4': {id: '4', text: 'edit todo ', completed: false},
+	})
 	return (
 		<ThemeProvider theme={theme}>
 			<Container>
 				<StatusBar
 					barStyle="light-content"
-					/* statusBar의 backgroundcolor속성은 안드로이드에만 적용된다. 
-				  상태 바의 바탕색을 변경가능하다.*/
+					/* statusBar의 backgroundcolor속성은 안드로이드에만 적용된다. 상태 바의 바탕색을 변경가능하다.*/
 					backgroundColor={theme.background}
 				/>
 				<Title>TODO List</Title>
@@ -64,10 +70,12 @@ export default function App() {
 					onChangeText={_handleTextChange}
 					onSubmitEditing={_addTask}/>
 				<List width={width}>
-					<Task text="hanbit"/>
-					<Task text="rn"/>
-					<Task text="rn sample"/>
-					<Task text="todo"/>
+					{Object.values(tasks)
+					.reverse()
+					.map(item => (
+						<Task key={item.id} text={item.text} />
+						/* key는 리액트에서 컴포넌트 배열을 렌더링했을 때 어떤 아이템이 추가, 수정, 삭제되었는지 식별하는 것을 돕는 고유값으로 리액트에서 특별하게 관리되며 자식 컴포넌트의 props로 전달 되지 않는다. 고유한 아이디를 갖도록 설계했으므로 id를 key값으로 지정한다.  */
+					))}
 				</List>
 			</Container>
 		</ThemeProvider>
