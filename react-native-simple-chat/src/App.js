@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { StatusBar, Image } from 'react-native';
-import { AppLoading } from 'expo';
+import { AppLoading } from 'expo-app-loading';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import { ThemeProvider } from 'styled-components/native';
 import { theme } from './theme';
 import Navigation from './navigations';
-import { images } from './utils/images';
-import { ProgressProvider, UserProvider } from './contexts';
+// import { images } from './utils/images';
+// import { ProgressProvider, UserProvider } from './contexts';
 
 const cacheImages = images => {
 	return images.map(image => {
@@ -37,6 +37,7 @@ const cacheImages = images => {
 	return isReady ? (
 	  <ThemeProvider theme={theme}>
 			<StatusBar barStyle="dark-content" />
+			<Navigation />
 	  </ThemeProvider>
 	) : (
 	  <AppLoading
