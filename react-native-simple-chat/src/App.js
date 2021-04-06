@@ -6,7 +6,7 @@ import * as Font from 'expo-font';
 import { ThemeProvider } from 'styled-components/native';
 import { theme } from './theme';
 import Navigation from './navigations';
-// import { images } from './utils/images';
+import { images } from './utils/images';
 // import { ProgressProvider, UserProvider } from './contexts';
 
 const cacheImages = images => {
@@ -28,6 +28,7 @@ const cacheImages = images => {
 	const _loadAssets = async () => {
 	  const imageAssets = cacheImages([
 		require('../assets/splash.png'),
+		...Object.values(images),
 	  ]);
 	  const fontAssets = cacheFonts([]);
   

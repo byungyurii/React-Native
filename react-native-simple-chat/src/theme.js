@@ -10,4 +10,9 @@ const colors = {
   export const theme = {
 	background: colors.white,
 	text: colors.black,
+
+	// Image Component
+	imageBackground: colors.grey_0,
+	imageButtonBackground: colors.grey_1,
+	imageButtonIcon: colors.white,
   };
