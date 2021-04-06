@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect, useContext } from 'react';
+import React from 'react';
 import styled from 'styled-components/native';
-import { Text, Button } from 'react-native';
+import { Button } from 'react-native';
 import { Image } from '../components';
 import { images } from '../utils/images';
 
@@ -14,10 +14,10 @@ const Container = styled.View`
 const Login = ({ navigation }) => {
 	return (
 		<Container>
-			 <Image url={images.logo} imageStyle={{ borderRadius: 8 }} />
+			<Image url={images.logo} />
 			<Button title="Signup" onPress={() => navigation.navigate('Signup')} />
 		</Container>
 	);
-};
+}; 
 
 export default Login;

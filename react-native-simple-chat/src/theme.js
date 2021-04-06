@@ -13,6 +13,6 @@ const colors = {
 
 	// Image Component
 	imageBackground: colors.grey_0,
-	imageButtonBackground: colors.grey_1,
-	imageButtonIcon: colors.white,
+	//imageButtonBackground: colors.grey_1,
+	//imageButtonIcon: colors.white,
   };
