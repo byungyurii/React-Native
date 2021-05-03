@@ -26,12 +26,14 @@ const Title = styled.Text`
 
 const List = styled.ScrollView`
 	flex: 1;
-	width: ${({width}) => width - 40 }px
+	width: ${({ width }) => width - 40}px
 	`;
 
 
 export default function App() {
 	const [newTask, setNewTask] = useState('');
+
+	const width = Dimensions.get('window').width;
 
 	/* id: 할 일 항목이 추가되는 시간의 타임스탬프 사용. 
 	   text: input컴포넌트에 입력된 값을 지정. 새로 입력되는 항목이기 때문에 completed는 항상 false
@@ -39,23 +41,43 @@ export default function App() {
 	const _addTask = () => {
 		const ID = Date.now().toString();
 		const newTaskObject = {
-			[ID]: {id: ID, text: newTask, completed: false},
+			[ID]: { id: ID, text: newTask, completed: false },
 		};
 		setNewTask('');
-		setTasks({ ...tasks, ...newTaskObject});
-	  };
+		setTasks({ ...tasks, ...newTaskObject });
+	};
 
 	const _handleTextChange = text => {
 		setNewTask(text);
-	  };
-	const width = Dimensions.get('window').width;
+	};
+	//삭제 기능
+	const _deleteTask = id => {
+		const currentTasks = Object.assign({}, tasks);
+		delete currentTasks[id];
+		setTasks(currentTasks);
+	};
+	// 완료 기능
+	const _toggleTask = id =>{
+		const currentTasks = Object.assign({}, tasks);
+		currentTasks[id]['completed'] = !currentTasks[id]['completed'];
+		setTasks(currentTasks);
+	};
 
+	//수정 기능
+	/* 수정된 항목이 전달되면 할 일 목록에서 해당 항목을 수정하는 함수. */
+	const _updateTask = id => {
+		const currentTasks =  Object.assign({}, tasks);
+		currentTasks[item.id] = item;
+		setTasks(currentTasks);
+	};
+	
 	const [tasks, setTasks] = useState({
-		'1': {id: '1', text: 'Han', completed: false},
-		'2': {id: '2', text: 'rn', completed: true},
-		'3': {id: '3', text: 'rn2', completed: false},
-		'4': {id: '4', text: 'edit todo ', completed: false},
+		'1': { id: '1', text: 'Han', completed: false },
+		'2': { id: '2', text: 'rn', completed: true },
+		'3': { id: '3', text: 'rn2', completed: false },
+		'4': { id: '4', text: 'edit todo ', completed: false },
 	})
+
 	return (
 		<ThemeProvider theme={theme}>
 			<Container>
@@ -68,16 +90,28 @@ export default function App() {
 				<Input placeholder="+ Add a Task"
 					value={newTask}
 					onChangeText={_handleTextChange}
-					onSubmitEditing={_addTask}/>
+					onSubmitEditing={_addTask} />
 				<List width={width}>
 					{Object.values(tasks)
-					.reverse()
-					.map(item => (
-						<Task key={item.id} text={item.text} />
-						/* key는 리액트에서 컴포넌트 배열을 렌더링했을 때 어떤 아이템이 추가, 수정, 삭제되었는지 식별하는 것을 돕는 고유값으로 리액트에서 특별하게 관리되며 자식 컴포넌트의 props로 전달 되지 않는다. 고유한 아이디를 갖도록 설계했으므로 id를 key값으로 지정한다.  */
-					))}
+						.reverse()
+						.map(item => (
+							<Task 
+							key={item.id} 
+							/* key는 리액트에서 컴포넌트 배열을 렌더링했을 때 어떤 아이템이 추가, 수정, 삭제되었는지 식별하는 것을 돕는 고유값으로 리액트에서 특별하게 관리되며 자식 컴포넌트의 props로 전달 되지 않는다. 고유한 아이디를 갖도록 설계했으므로 id를 key값으로 지정한다.  */
+							item={item} 
+							/* task 컴포넌트에서 생성된 항목 삭제 함수와 함께 항목 내용 전체를 전달해 자식 컴포넌트에서도 항목의 id를 확인할 수 있도록 한다. */
+							deleteTask={_deleteTask} 
+							toggleTask={_toggleTask}
+							/* 수정 버튼을 클릭하면 항목의 현재 내용을 가진 input 컴포넌트가 렌더링되어 사용자가 수정할 수 있다. */
+							updateTask={_updateTask}
+							/>
+						))}
 				</List>
 			</Container>
 		</ThemeProvider>
 	);
 }
+
+/*5.5.2 delete 기능 구현시
+Warning: Failed prop type: Invalid prop `item` of type `object` supplied to `Task`, expected `string`.
+이라고 뜸... 뭔지 모르겠음. */
