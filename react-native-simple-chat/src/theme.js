@@ -5,14 +5,9 @@ const colors = {
 	grey_1: '#a6a6a6',
 	red: '#e84118',
 	blue: '#3679fe',
-  };
-  
-  export const theme = {
+};
+
+export const theme = {
 	background: colors.white,
 	text: colors.black,
-
-	// Image Component
-	imageBackground: colors.grey_0,
-	//imageButtonBackground: colors.grey_1,
-	//imageButtonIcon: colors.white,
-  };
+}
